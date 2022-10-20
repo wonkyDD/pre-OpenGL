@@ -1,0 +1,13 @@
+*
+!/**/
+!*.*
+
+
+*.code-workspace
+
+*.exe
+*.o
+*.out
+**/*.DS_Store
+**/*.dSYM
+build
