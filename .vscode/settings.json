@@ -1,4 +1,7 @@
 {
+    "files.exclude": {
+        "**/*.dSYM": true,
+    },
     "files.associations": {
         "iostream": "cpp"
     }
