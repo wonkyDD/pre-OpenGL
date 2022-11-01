@@ -3,7 +3,12 @@
         "**/*.dSYM": true,
     },
     "files.associations": {
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "stdio.h": "c",
+        "string.h": "c",
+        "glad.h": "c",
+        "stdlib.h": "c",
+        "cmath": "cpp"
     }
     // "C_Cpp.errorSquiggles": "Disabled"
 }
