@@ -1,10 +1,10 @@
 {
 	"folders": [
 		{
-			"path": "../leetcode-cpp"
+			"path": "."
 		},
 		{
-			"path": "."
+			"path": "../leetcode-cpp"
 		},
 		{
 			"path": "../LearnOpenGL"
@@ -16,11 +16,8 @@
 			"path": "../bullet3"
 		},
 		{
-			"path": "../os-concepts-9th"
-		},
-		{
-			"path": "../dbms-postgresql"
-		},
+			"path": "../filament"
+		}
 	],
 	"settings": {
 		"files.associations": {
