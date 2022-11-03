@@ -5,6 +5,7 @@
 - Bubble Fighter
 - Keroro PangPang
 - tetris
+- gomoku
 - golf
 - brwalstars (showdown)
 - apex legends
