@@ -17,6 +17,9 @@
 		},
 		{
 			"path": "../filament"
+		},
+		{
+			"path": "../eastl"
 		}
 	],
 	"settings": {
