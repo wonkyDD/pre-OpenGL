@@ -43,3 +43,6 @@
 - 별의 커비
 - 고기(와규 큐브) 굽기
 - 핀저볼
+- tankhero
+- hitman
+- tank.io
