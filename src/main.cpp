@@ -3,14 +3,13 @@
 #include <stdio.h>
 #include <cmath>
 
-void process_input(GLFWwindow* window)
+void processInput(GLFWwindow* window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 }
 
-// whenever the window size changed (by OS or userss)
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+void framebufferSizeCallback(GLFWwindow* window, int width, int height)
 {
     /**
      * @todo
@@ -21,18 +20,18 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 }
 
 // global
-GLFWwindow* g_mainWindow = nullptr;
+GLFWwindow* gMainWindow = nullptr;
 const unsigned int WINDOW_WIDTH = 800;
 const unsigned int WINDOW_HEIGHT = 600;
 
-const char* vertex_shader_source ="#version 330 core\n"
+const char* vertexShaderSource ="#version 330 core\n"
     "layout (location = 0) in vec3 aPos;\n"
     "void main()\n"
     "{\n"
     "   gl_Position = vec4(aPos, 1.0);\n"
     "}\0";
 
-const char* fragment_shader_source = "#version 330 core\n"
+const char* fragmentShaderSource = "#version 330 core\n"
     "out vec4 FragColor;\n"
     "uniform vec4 ourColor;\n"
     "void main()\n"
@@ -61,14 +60,14 @@ int main()
 #endif
 
     // create window
-    g_mainWindow = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Alkagi", NULL, NULL);
-    if (g_mainWindow == NULL) 
+    gMainWindow = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Alkagi", NULL, NULL);
+    if (gMainWindow == NULL) 
     {
         printf("Failed to create GLFW window\n");
         glfwTerminate();
         return -1;
     }
-    glfwMakeContextCurrent(g_mainWindow);
+    glfwMakeContextCurrent(gMainWindow);
 
     /**
      * @todo
@@ -84,55 +83,55 @@ int main()
      * @todo
      * callback
     */
-    glfwSetFramebufferSizeCallback(g_mainWindow, framebuffer_size_callback);
-    // glfwSetWindowSizeCallback(g_mainWindow, ResizeWindowCallback);
-	// glfwSetKeyCallback(g_mainWindow, KeyCallback);
-	// glfwSetCharCallback(g_mainWindow, CharCallback);
-	// glfwSetMouseButtonCallback(g_mainWindow, MouseButtonCallback);
-	// glfwSetCursorPosCallback(g_mainWindow, MouseMotionCallback);
-	// glfwSetScrollCallback(g_mainWindow, ScrollCallback);
+    glfwSetFramebufferSizeCallback(gMainWindow, framebufferSizeCallback);
+    // glfwSetWindowSizeCallback(gMainWindow, ResizeWindowCallback);
+	// glfwSetKeyCallback(gMainWindow, KeyCallback);
+	// glfwSetCharCallback(gMainWindow, CharCallback);
+	// glfwSetMouseButtonCallback(gMainWindow, MouseButtonCallback);
+	// glfwSetCursorPosCallback(gMainWindow, MouseMotionCallback);
+	// glfwSetScrollCallback(gMainWindow, ScrollCallback);
 
     int success;
     char infoLog[512];
 
     // vertex shader
     // https://registry.khronos.org/OpenGL-Refpages/gl4/
-    unsigned int vertex_shader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertex_shader, 1, &vertex_shader_source, NULL);
-    glCompileShader(vertex_shader);
-    glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, &success);
+    unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+    glCompileShader(vertexShader);
+    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
     if (!success) 
     {
-        glGetShaderInfoLog(vertex_shader, 512, NULL, infoLog);
+        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
         fprintf(stderr, "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n%s", infoLog);
     }
 
     // fragment shader
-    unsigned int fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragment_shader, 1, &fragment_shader_source, NULL);
-    glCompileShader(fragment_shader);
-    glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &success);
+    unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+    glCompileShader(fragmentShader);
+    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
     if (!success)
     {
-        glGetShaderInfoLog(fragment_shader, 512, NULL, infoLog);
+        glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
         fprintf(stderr, "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n%s", infoLog);
     }
 
     // link shaders
-    unsigned int shader_program = glCreateProgram();
-    glAttachShader(shader_program, vertex_shader);
-    glAttachShader(shader_program, fragment_shader);
-    glLinkProgram(shader_program);
-    glGetProgramiv(shader_program, GL_LINK_STATUS, &success);
+    unsigned int shaderProgram = glCreateProgram();
+    glAttachShader(shaderProgram, vertexShader);
+    glAttachShader(shaderProgram, fragmentShader);
+    glLinkProgram(shaderProgram);
+    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
     if (!success) 
     {
-        glGetProgramInfoLog(shader_program, 512, NULL, infoLog);
+        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
         fprintf(stderr, "ERROR::SHADER::PROGRAM::LINKING_FAILED\n%s", infoLog);
     }
 
     // delete shaders
-    glDeleteShader(vertex_shader);
-    glDeleteShader(fragment_shader);
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     float vertices[] = 
@@ -184,13 +183,13 @@ int main()
     glBindVertexArray(VAO);
 
     // loop
-    while (!glfwWindowShouldClose(g_mainWindow))
+    while (!glfwWindowShouldClose(gMainWindow))
     {
         /**
          * @todo
          * callback으로 루프 들어가기 전에 처리?
         */
-        process_input(g_mainWindow);
+        processInput(gMainWindow);
         
         /**
          * @todo
@@ -200,31 +199,36 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
 
         // activate the shader before any calls to glUniform
-        glUseProgram(shader_program);
+        glUseProgram(shaderProgram);
 
-        double  time_value = glfwGetTime();
-        float green_value = static_cast<float>(sin(time_value) / 2.0 + 0.5);
+        double  timeValue = glfwGetTime();
+        float greenValue = static_cast<float>(sin(timeValue) / 2.0 + 0.5);
 
         /**
          * @todo
          * shader_program에 attach된 모든 shader안 변수들은
-         * glGet...을 통해 접근/수정 할수
+         * glGet...을 통해 접근/수정 할수있나?
+         * 
+         * triangle 회전시키기?
         */
-        int vertex_color_location = glGetUniformLocation(shader_program, "ourColor");
-        glUniform4f(vertex_color_location, 0.0f, 0.0f, green_value, 1.0f);
+        int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
+        glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 
         // render the triangle
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
-        // swap buffers, poll IO events
-        glfwSwapBuffers(g_mainWindow);
+        /**
+         * @todo
+         * swap interval
+        */
+        glfwSwapBuffers(gMainWindow);
         glfwPollEvents();
     }
 
     // delete vertex array, buffer, program
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
-    glDeleteProgram(shader_program);
+    glDeleteProgram(shaderProgram);
 
     // clear allocated GLFW resources
     glfwTerminate();
