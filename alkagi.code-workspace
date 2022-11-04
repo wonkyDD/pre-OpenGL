@@ -4,9 +4,6 @@
 			"path": "."
 		},
 		{
-			"path": "../leetcode-cpp"
-		},
-		{
 			"path": "../LearnOpenGL"
 		},
 		{
@@ -17,6 +14,9 @@
 		},
 		{
 			"path": "../filament"
+		},
+		{
+			"path": "../leetcode-cpp"
 		},
 		{
 			"path": "../eastl"
