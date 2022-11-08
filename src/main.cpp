@@ -3,26 +3,15 @@
 #include <stdio.h>
 #include <cmath>
 
-void processInput(GLFWwindow* window)
-{
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
-}
+typedef unsigned int uint;
 
-void framebufferSizeCallback(GLFWwindow* window, int width, int height)
-{
-    /**
-     * @todo
-     * Make sure the viewport matches the new window dimensions.
-     * On retina displays, w and h will be significantly larger than specified.
-    */
-    glViewport(0, 0, width, height);
-}
+void framebufferSizeCallback(GLFWwindow* window, int width, int height);
+void processInput(GLFWwindow *window);
 
 // global
-GLFWwindow* gMainWindow = nullptr;
-const unsigned int WINDOW_WIDTH = 800;
-const unsigned int WINDOW_HEIGHT = 600;
+GLFWwindow* g_mainWindow = nullptr;
+const uint WINDOW_WIDTH = 800;
+const uint WINDOW_HEIGHT = 600;
 
 const char* vertexShaderSource ="#version 330 core\n"
     "layout (location = 0) in vec3 aPos;\n"
@@ -60,14 +49,14 @@ int main()
 #endif
 
     // create window
-    gMainWindow = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Alkagi", NULL, NULL);
-    if (gMainWindow == NULL) 
+    g_mainWindow = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Alkagi", NULL, NULL);
+    if (g_mainWindow == NULL) 
     {
         printf("Failed to create GLFW window\n");
         glfwTerminate();
         return -1;
     }
-    glfwMakeContextCurrent(gMainWindow);
+    glfwMakeContextCurrent(g_mainWindow);
 
     /**
      * @todo
@@ -82,21 +71,21 @@ int main()
     /**
      * @todo
      * callback
+     * 
+     * glfwSetWindowSizeCallback(g_mainWindow, ResizeWindowCallback);
+     * glfwSetKeyCallback(g_mainWindow, KeyCallback);
+     * glfwSetCharCallback(g_mainWindow, CharCallback);
+     * glfwSetMouseButtonCallback(g_mainWindow, MouseButtonCallback);
+     * glfwSetCursorPosCallback(g_mainWindow, MouseMotionCallback);
+     * glfwSetScrollCallback(g_mainWindow, ScrollCallback);
     */
-    glfwSetFramebufferSizeCallback(gMainWindow, framebufferSizeCallback);
-    // glfwSetWindowSizeCallback(gMainWindow, ResizeWindowCallback);
-	// glfwSetKeyCallback(gMainWindow, KeyCallback);
-	// glfwSetCharCallback(gMainWindow, CharCallback);
-	// glfwSetMouseButtonCallback(gMainWindow, MouseButtonCallback);
-	// glfwSetCursorPosCallback(gMainWindow, MouseMotionCallback);
-	// glfwSetScrollCallback(gMainWindow, ScrollCallback);
-
+    glfwSetFramebufferSizeCallback(g_mainWindow, framebufferSizeCallback);
+    
+    // shader
     int success;
     char infoLog[512];
 
-    // vertex shader
-    // https://registry.khronos.org/OpenGL-Refpages/gl4/
-    unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    uint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
     glCompileShader(vertexShader);
     glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
@@ -106,8 +95,7 @@ int main()
         fprintf(stderr, "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n%s", infoLog);
     }
 
-    // fragment shader
-    unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    uint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
     glCompileShader(fragmentShader);
     glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
@@ -117,8 +105,7 @@ int main()
         fprintf(stderr, "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n%s", infoLog);
     }
 
-    // link shaders
-    unsigned int shaderProgram = glCreateProgram();
+    uint shaderProgram = glCreateProgram();
     glAttachShader(shaderProgram, vertexShader);
     glAttachShader(shaderProgram, fragmentShader);
     glLinkProgram(shaderProgram);
@@ -129,11 +116,13 @@ int main()
         fprintf(stderr, "ERROR::SHADER::PROGRAM::LINKING_FAILED\n%s", infoLog);
     }
 
-    // delete shaders
+    /**
+     * @todo
+     * delete shader 타이밍?
+    */
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
-    // set up vertex data (and buffer(s)) and configure vertex attributes
     float vertices[] = 
     {
         0.5f, -0.5f, 0.0f,      // bottom right
@@ -141,18 +130,31 @@ int main()
         0.0f, 0.5f, 0.0f,       // top 
     };
 
-    unsigned int VBO, VAO;
+    uint VBO, VAO;
+    /**
+     * @todo
+     * glGenVertexArrays(8, &VAO);
+     * glGenVertexArrays(10, &VAO);
+     * glGenBuffers(2, &VBO);
+    */
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
 
-    // bind vertex array
     glBindVertexArray(VAO);
-
-    // bind vertex butter, set buffer data
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    // configure vertex attribute
+    /**
+     * @todo
+     * -> index바꾸기, size바꾸기, pointer바꾸기
+     * 
+     * glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+     * glVertexAttribPointer(0, i<=0 or i>4, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+     * glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)12);
+     * 
+     * glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)12);
+     * glEnableVertexAttribArray(1);
+    */
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
@@ -183,45 +185,45 @@ int main()
     glBindVertexArray(VAO);
 
     // loop
-    while (!glfwWindowShouldClose(gMainWindow))
+    while (!glfwWindowShouldClose(g_mainWindow))
     {
         /**
          * @todo
          * callback으로 루프 들어가기 전에 처리?
         */
-        processInput(gMainWindow);
+        processInput(g_mainWindow);
         
         /**
          * @todo
-         * glClearColor vs glDrawArrays
+         * glClearColor vs glDrawArrays vs glDrawBuffer
         */
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // activate the shader before any calls to glUniform
+        /**
+         * @todo
+         * activate the shader before any calls to glUniform
+         * -> 루프안에다가 넣는이유?
+        */
         glUseProgram(shaderProgram);
 
-        double  timeValue = glfwGetTime();
+        double timeValue = glfwGetTime() * 3;
         float greenValue = static_cast<float>(sin(timeValue) / 2.0 + 0.5);
 
         /**
          * @todo
-         * shader_program에 attach된 모든 shader안 변수들은
-         * glGet...을 통해 접근/수정 할수있나?
-         * 
          * triangle 회전시키기?
         */
         int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
         glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 
-        // render the triangle
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
         /**
          * @todo
          * swap interval
         */
-        glfwSwapBuffers(gMainWindow);
+        glfwSwapBuffers(g_mainWindow);
         glfwPollEvents();
     }
 
@@ -233,4 +235,20 @@ int main()
     // clear allocated GLFW resources
     glfwTerminate();
     return 0;
+}
+
+void processInput(GLFWwindow* window)
+{
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+}
+
+void framebufferSizeCallback(GLFWwindow* window, int width, int height)
+{
+    /**
+     * @todo
+     * Make sure the viewport matches the new window dimensions.
+     * On retina displays, w and h will be significantly larger than specified.
+    */
+    glViewport(0, 0, width, height);
 }
