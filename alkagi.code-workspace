@@ -3,24 +3,24 @@
 		{
 			"path": "."
 		},
-		{
-			"path": "../LearnOpenGL"
-		},
-		{
-			"path": "../box2d"
-		},
-		{
-			"path": "../bullet3"
-		},
-		{
-			"path": "../filament"
-		},
-		{
-			"path": "../leetcode-cpp"
-		},
-		{
-			"path": "../eastl"
-		}
+		// {
+		// 	"path": "../LearnOpenGL"
+		// },
+		// {
+		// 	"path": "../box2d"
+		// },
+		// {
+		// 	"path": "../bullet3"
+		// },
+		// {
+		// 	"path": "../filament"
+		// },
+		// {
+		// 	"path": "../leetcode-cpp"
+		// },
+		// {
+		// 	"path": "../eastl"
+		// }
 	],
 	"settings": {
 		"files.associations": {
