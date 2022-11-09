@@ -16,7 +16,7 @@
 				"${workspaceFolder}/src/glad.c",
 				"${workspaceFolder}/lib/libglfw.3.3.dylib",
 				"-o",
-				"${workspaceFolder}/main",
+				"${workspaceFolder}/alkagi",
 				"-framework",
 				"OpenGL",
 				"-framework",
