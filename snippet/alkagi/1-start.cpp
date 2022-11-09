@@ -250,5 +250,12 @@ void framebufferSizeCallback(GLFWwindow* window, int width, int height)
      * Make sure the viewport matches the new window dimensions.
      * On retina displays, w and h will be significantly larger than specified.
     */
+
+   /**
+    * @todo
+    * glfwGetWindowSize와
+    * glfwGetFramebufferSize로 로그체크하니까
+    * callback없이도 width, height 잘바뀌던데 무슨의미임?
+   */
     glViewport(0, 0, width, height);
 }
