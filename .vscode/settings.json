@@ -10,7 +10,10 @@
         "stdlib.h": "c",
         "cmath": "cpp",
         "thread": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "fstream": "cpp",
+        "sstream": "cpp",
+        "iosfwd": "cpp"
     }
     // "C_Cpp.errorSquiggles": "Disabled"
 }
