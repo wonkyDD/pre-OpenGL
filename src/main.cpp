@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include <alkagi/shader.h>
 #include <alkagi/filesystem.h>
+#include <cmath>
 #include <stdio.h>
 
 typedef unsigned int uint;
@@ -29,7 +30,7 @@ int main()
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
-    g_mainWindow = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Alkagi", NULL, NULL);
+    g_mainWindow = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Gradation", NULL, NULL);
     if (g_mainWindow == NULL) 
     {
         printf("Failed to create GLFW window\n");
@@ -51,161 +52,42 @@ int main()
      * root 하드코딩 수정
     */
     Shader ourShader("/Users/joseonghyeon/dev/alkagi/src/main.vs", "/Users/joseonghyeon/dev/alkagi/src/main.fs");
-    Shader ourShader2("/Users/joseonghyeon/dev/alkagi/src/main.vs", "/Users/joseonghyeon/dev/alkagi/src/main2.fs");
-
-    /**
-     * @note
-     * 직사각형 
-     * 
-     * -> viewport기준 정사각형임.
-     * Normalized Device Coordinates와 
-     * Screen Space Coordinates 참조
-    */
-    // float vertices[] = {
-    //     // positions         // colors
-    //     -0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  // top left
-    //      0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  // top right
-    //      0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  // bottom right
-    //     -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f   // bottom left
-    // };
-
-    // uint indices[] = {
-    //     0, 1, 3,
-    //     1, 2, 3
-    // };
-
-
-    /**
-     * @note
-     * 마름모
-    */
-    // float vertices[] = {
-    //     // positions         // colors
-    //      0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  // top
-    //     -0.5f,  0.0f, 0.0f,  0.0f, 0.0f, 1.0f,  // left
-    //      0.0f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  // bottom
-    //      0.5f,  0.0f, 0.0f,  0.0f, 1.0f, 0.0f   // right
-    // };
-
-    // uint indices[] = {
-    //     0, 1, 3,
-    //     1, 2, 3
-    // };
-
-
-    /**
-     * @note
-     * 평행사변형
-    */
-    // float vertices[] = {
-    //     // positions         // colors
-    //      0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  // top left
-    //     -0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  // bottom left
-    //      0.0f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  // bottom right
-    //      0.5f,  0.5f, 0.0f,  0.0f, 1.0f, 0.0f   // top right
-    // };
-
-    // uint indices[] = {
-    //     0, 1, 3,
-    //     1, 2, 3
-    // };
-
-
-    /**
-     * @note
-     * 정육각형
-    */
-    // float vertices[] = {
-    //     // positions           // colors
-    //     -0.25f, 0.5f,  0.0f,   0.0f, 0.0f, 1.0f,  // top left
-    //     -0.5f,  0.0f,  0.0f,   0.0f, 0.0f, 1.0f,  // middle left
-    //     -0.25f, -0.5f, 0.0f,   1.0f, 0.0f, 0.0f,  // bottom left
-    //      0.25f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,  // bottom right
-    //      0.5f,  0.0f,  0.0f,   0.0f, 1.0f, 0.0f,  // middle right
-    //      0.25f, 0.5f,  0.0f,   0.0f, 1.0f, 0.0f,  // top right
-    // };
-
-    // uint indices[] = {
-    //     0, 1, 2,
-    //     0, 2, 3,
-    //     0, 3, 4,
-    //     0, 4, 5
-    // };
-
-
-    /**
-     * @note
-     * 직각삼각형 2개
-    */
-    // float vertices[] = {
-    //     // positions         // colors
-    //     -0.25f, 0.25f,  0.0f,  0.0f, 0.0f, 1.0f,  // top
-    //     -0.25f, -0.25f, 0.0f,  0.0f, 1.0f, 0.0f,  // bottom left
-    //     0.25f,  -0.25f, 0.0f,  1.0f, 0.0f, 0.0f,  // bottom right
-    //     0.25f,   0.25f,  0.0f,  0.0f, 0.0f, 1.0f,  // top
-    //     0.25f, -0.25f, 0.0f,  0.0f, 1.0f, 0.0f,  // bottom left
-    //     0.75f,  -0.25f, 0.0f,  1.0f, 0.0f, 0.0f,  // bottom right
-    // };
-
 
     float vertices[] = {
-        // positions         // colors
-        -0.25f, 0.25f,  0.0f,  0.0f, 0.0f, 1.0f,  // top
-        -0.25f, -0.25f, 0.0f,  0.0f, 1.0f, 0.0f,  // bottom left
-        0.25f,  -0.25f, 0.0f,  1.0f, 0.0f, 0.0f,  // bottom right
+        -1.0f, 1.0f,  0.0f,
+        -1.0f, -1.0f, 0.0f,
+        1.0f,  -1.0f, 0.0f,
+        1.0f, 1.0f, 0.0f
     };
 
-    float vertices2[] = {
-        0.3f,   0.25f,  0.0f,  0.0f, 0.0f, 1.0f,  // top
-        0.3f, -0.25f, 0.0f,  0.0f, 1.0f, 0.0f,    // bottom left
-        0.8f,  -0.25f, 0.0f,  1.0f, 0.0f, 0.0f,   // bottom right
+    uint indices [] = {
+        0, 1, 2,
+        2, 0, 3
     };
 
-    // uint indices[] = {
-    //     0, 1, 3,
-    //     1, 2, 3
-    // };
-
-    // uint EBO;
-    // glGenBuffers(1, &EBO);
-    // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    // glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-    
-    uint VBO, VAO;
-    uint VBO2, VAO2;
+    uint VBO, VAO, EBO;
 
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
-    glGenVertexArrays(1, &VAO2);
-    glGenBuffers(1, &VBO2);
+    glGenBuffers(1, &EBO);
 
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(sizeof(float) * 3));
-    glEnableVertexAttribArray(1);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    // glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     while (!glfwWindowShouldClose(g_mainWindow))
     {
         processInput(g_mainWindow);
-        
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // glDrawArrays(GL_TRIANGLES, 0, 3);
-        // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        // glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
-        // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        // glDrawElements(GL_LINE_LOOP, 6, GL_UNSIGNED_INT, 0);
-        // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-
         ourShader.use();
-        // ourShader2.use();
         glBindVertexArray(VAO);
 
         /**
@@ -220,8 +102,12 @@ int main()
          * 4. 각 vao, vbo 쌍으로 첫번째는 평범한 직각삼각형,
          * 두번째는 맨처음 greenValue를 uniform으로 넣어주는 직각삼각형 처리
         */
+        float timeValue = static_cast<float>(glfwGetTime());
+        int timeLocation = glGetUniformLocation(ourShader.ID, "time");
+        glUniform1f(timeLocation, timeValue);
 
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        // glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         glfwSwapBuffers(g_mainWindow);
         glfwPollEvents();
     }
