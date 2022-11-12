@@ -16,13 +16,14 @@
 - [ ] Model Viewer
   - [ ] obj
   - [ ] fbx
+- [ ] Skinning (animation)
 
 <br>
 
-- [ ] Data Structures
+<!-- - [ ] Data Structures
 - [ ] Mathematics
 - [ ] Network
 - [ ] Renderer
 - [ ] Physics
-- [ ] Skinning (animation)
 - [ ] Voxel
+- [ ] Ranking System -->
