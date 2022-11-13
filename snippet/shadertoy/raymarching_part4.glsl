@@ -1,4 +1,5 @@
 // https://www.shadertoy.com/view/MttGz7
+// https://jamie-wong.com/2016/07/15/ray-marching-signed-distance-functions/
 
 /**
  * Part 4 Challenges:
