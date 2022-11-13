@@ -41,7 +41,8 @@
 - golf
 - 배구
 - 당구 (4구)
-  
+
+- Tycoon
 - 산사태
 - 3d-mazerunner
 - 할리갈리
