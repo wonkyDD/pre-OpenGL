@@ -9,6 +9,16 @@
 
 <br>
 
+### 🎮 Games
+
+- [ ] Alkagi
+<!-- - [ ] Tetris -->
+<!-- - [ ] Gomoku -->
+<!-- - [ ] Hockey -->
+
+
+<br>
+
 ### 📝 TODO
 
 - [ ] From `.vscode` to `CMake` build system
@@ -20,11 +30,11 @@
 
 <br>
 
-<!-- - [ ] Data Structures
-- [ ] Mathematics
-- [ ] Network
-- [ ] Renderer
-- [ ] Physics
-- [ ] Voxel
-- [ ] Ranking System
-- [ ] Particle -->
+<!-- - [ ] Data Structures -->
+<!-- - [ ] Mathematics -->
+<!-- - [ ] Network -->
+<!-- - [ ] Renderer -->
+<!-- - [ ] Physics -->
+<!-- - [ ] Voxel -->
+<!-- - [ ] Ranking System -->
+<!-- - [ ] Particle -->
