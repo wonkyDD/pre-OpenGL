@@ -1,14 +1,16 @@
 # TODO
 
 - alkagi
+- gomoku
+- tetris
+  
 - Mario-Kart + Kartrider
 - Bubble Fighter
 - Keroro PangPang
-- tetris
-- gomoku
-- golf
-- brwalstars (showdown)
-- apex legends
+- Brwalstars (showdown)
+- Apex Legends
+- TalesRunner
+- Crazy Arcade
 - fallguys-공옮기기
 - fallguys-떨어져유
 - fallguys-축구
@@ -19,30 +21,33 @@
 - fallguys-길을찾으세요(흔들다리)
 - fallguys-원판달리기
 - fallguys-회전원통
-- TalesRunner
-- Crazy Arcade
-- Tap sonic
-- pingpong
-- tennis
+  
+- Tap-sonic
+- Rider
+- hockey
 - axe.io
 - 길건너친구들
-- 배구
-- 당구 (4구)
+- 제트팩
+- tankhero
+- tank.io
+- 어릴때하던 gameloft가 만든 shooting차게임
+- temple-run (endless-run)
+  
+- tennis
 - pocketball
 - basketball
 - baseball
+- pingpong
+- golf
+- 배구
+- 당구 (4구)
+  
 - 산사태
 - 3d-mazerunner
-- hockey
-- 어릴때하던 gameloft가 만든 shooting차게임
-- voxel-based game
-- 제트팩
-- temple-run (endless-run)
 - 할리갈리
 - 해리포터-퀴디치
 - 별의 커비
-- 고기(와규 큐브) 굽기
 - 핀저볼
-- tankhero
-- hitman
-- tank.io
+- Hitman
+
+<!-- - voxel-based game -->
