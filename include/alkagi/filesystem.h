@@ -13,6 +13,10 @@
 class FileSystem
 {
 private:
+  /**
+   * @note
+   * 함수포인터를 private에 박았음
+  */
   typedef std::string (*Builder) (const std::string& path);
 
 public:
@@ -41,7 +45,7 @@ private:
      * `logl_root`를 가진 root_directory.h 파일이 
      * 생성되는지 확인할 것.
     */
-    static std::string root = "/Users/joseonghyeon/dev/alkagi/";
+    static std::string root = "/Users/joseonghyeon/dev/alkagi";
     return root;
   }
 
