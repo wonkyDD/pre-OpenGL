@@ -4,7 +4,8 @@
 - gomoku
 - tetris
   
-- Mario-Kart + Kartrider
+- Mario-Kart
+- Kartrider
 - Bubble Fighter
 - Keroro PangPang
 - Brwalstars (showdown)
@@ -21,6 +22,8 @@
 - fallguys-길을찾으세요(흔들다리)
 - fallguys-원판달리기
 - fallguys-회전원통
+- ALTF4
+- PicoPaco
   
 - Tap-sonic
 - Rider
