@@ -1,67 +1,17 @@
-#define STB_IMAGE_IMPLEMENTATION
-#include <assert.h>
-#define ASSERT(x) assert(x)
-
-#include <cmath>
-#include <stdio.h>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <alkagi/shader.h>
-#include <alkagi/filesystem.h>
-#include <alkagi/stb_image.h>
-
-typedef unsigned int uint;
-
-void glfwErrorCallback(int error, const char* description);
-void framebufferSizeCallback(GLFWwindow* window, int width, int height);
-void processInput(GLFWwindow *window);
-
-GLFWwindow* g_mainWindow = nullptr;
-const uint WINDOW_WIDTH = 800;
-const uint WINDOW_HEIGHT = 600;
-float mixValue = 0.2f;
+#include <alkagi/alkagi.h>
 
 int main()
 {
-    if (glfwInit() == 0)
-	{
-		fprintf(stderr, "Failed to initialize GLFW\n");
-		return -1;
-	}
-
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-#ifdef __APPLE__
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#endif
-
-    g_mainWindow = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Alkagi", NULL, NULL);
-    if (g_mainWindow == NULL) 
-    {
-        printf("Failed to create GLFW window\n");
-        glfwTerminate();
-        return -1;
-    }
-    glfwMakeContextCurrent(g_mainWindow);
-    glfwSetErrorCallback(glfwErrorCallback);
-    glfwSetFramebufferSizeCallback(g_mainWindow, framebufferSizeCallback);
-
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) 
-    {
-        printf("Failed to initialize GLAD\n");
-        return -1;
-    }
+    /**
+     * @todo Enum ?
+    */
+    if (init() == 0) return -1;
 
     /**
      * @todo root 하드코딩 수정
     */
     Shader ourShader("/Users/joseonghyeon/dev/alkagi/src/main.vs", "/Users/joseonghyeon/dev/alkagi/src/main.fs");
 
-    /**
-     * @note
-     * texture coord를 변경
-    */
     float vertices[] = {
         // positions          // colors           // texture coords
          0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   3.0f, 3.0f, // top right
@@ -84,16 +34,13 @@ int main()
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
-
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
     glEnableVertexAttribArray(2);
 
@@ -105,9 +52,7 @@ int main()
     glBindTexture(GL_TEXTURE_2D, texture1);
 
     /**
-     * @note
-     * GL_CLAMP_TO_BORDER 사용시에는
-     * border color를 설정해줘야함.
+     * @note GL_CLAMP_TO_BORDER 사용시 border color를 설정
     */
     // float borderColor[] = { 1.0f, 1.0f, 0.0f, 1.0f };
     // glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);  
@@ -172,15 +117,6 @@ int main()
 
         // ourShader.use();
         // glBindVertexArray(VAO);
-
-        /**
-         * @note
-         * mix값 sin으로 던져주기
-        */
-        // double time = glfwGetTime() * 0.8;
-        // float mix = static_cast<float>(abs(sin(time)));
-        // ourShader.setFloat("mixValue", mix);
-
         ourShader.setFloat("mixValue", mixValue);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         glfwSwapBuffers(g_mainWindow);
@@ -192,32 +128,4 @@ int main()
 
     glfwTerminate();
     return 0;
-}
-
-void processInput(GLFWwindow* window)
-{
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
-    
-    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-    {
-        mixValue += 0.001f;
-        if (mixValue >= 1.0f) mixValue = 1.0f;
-    }
-    
-    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-    {
-        mixValue -= 0.001f;
-        if (mixValue <= 0.0f) mixValue = 0.0f;
-    }
-}
-
-void framebufferSizeCallback(GLFWwindow* window, int width, int height)
-{
-    glViewport(0, 0, width, height);
-}
-
-void glfwErrorCallback(int error, const char* description)
-{
-	fprintf(stderr, "GLFW error occured. Code: %d. Description: %s\n", error, description);
 }
