@@ -1,4 +1,5 @@
 // https://www.shadertoy.com/view/Xds3zN
+// https://iquilezles.org/articles/distfunctions/
 
 // Copyright Inigo Quilez, 2016 - https://iquilezles.org/
 // I am the sole copyright owner of this Work.
