@@ -24,6 +24,10 @@
 - fallguys-회전원통
 - ALTF4
 - PicoPaco
+- Sonic
+- 별의 커비
+- 핀저볼
+- Hitman
   
 - Tap-sonic
 - Rider
@@ -50,9 +54,6 @@
 - 3d-mazerunner
 - 할리갈리
 - 해리포터-퀴디치
-- 별의 커비
-- 핀저볼
-- Hitman
 
 <!-- - voxel-based game -->
 <!-- Rumicube -->
