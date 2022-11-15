@@ -28,6 +28,7 @@
 - 별의 커비
 - 핀저볼
 - Hitman
+- Poker
   
 - Tap-sonic
 - Rider
@@ -55,5 +56,7 @@
 - 할리갈리
 - 해리포터-퀴디치
 
+<!-- - Go-Stop -->
+<!-- - 물수제비 -->
 <!-- - voxel-based game -->
 <!-- Rumicube -->
