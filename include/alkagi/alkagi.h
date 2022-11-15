@@ -1,12 +1,17 @@
 #ifndef ALKAGI_H
 #define ALKAGI_H
 
+#include <thread>
 #include <cmath>
 #include <stdio.h>
 #include <assert.h>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include <alkagi/shader.h>
 #include <alkagi/filesystem.h>
 #define STB_IMAGE_IMPLEMENTATION
@@ -55,6 +60,8 @@ void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 //     glfwCreateWindow,
 //     gladLoadGLLoader
 // };
+
+
 int init()
 {
     if (glfwInit() == 0)
