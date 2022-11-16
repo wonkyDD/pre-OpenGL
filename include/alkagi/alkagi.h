@@ -38,7 +38,7 @@ const uint WINDOW_HEIGHT = 600;
 float mixValue = 0.2f;
 
 
-int init();
+int init(const char* caption = "Alkagi");
 void processInput(GLFWwindow *window);
 void errorCallback(int error, const char* description);
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
@@ -50,8 +50,7 @@ void framebufferSizeCallback(GLFWwindow* window, int width, int height);
  * 리턴하는 int값을 따로 만들어줄지?
  * 아니면 enum을 따로 리턴해줄지?
  * 
- * @todo
- * Enum 네이밍 방식? (EInit은 좀;;)
+ * @todo Enum 네이밍 방식? (EInit은 좀;;)
 */
 
 // enum class EInit 
@@ -62,7 +61,7 @@ void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 // };
 
 
-int init()
+int init(const char* caption)
 {
     if (glfwInit() == 0)
 	{
@@ -77,7 +76,7 @@ int init()
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
-    g_mainWindow = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Alkagi", NULL, NULL);
+    g_mainWindow = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, caption, NULL, NULL);
     if (g_mainWindow == NULL) 
     {
         printf("Failed to create GLFW window\n");
