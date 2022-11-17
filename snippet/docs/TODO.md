@@ -29,6 +29,7 @@
 - 핀저볼
 - Hitman
 - Poker
+- Fortnite
   
 - Tap-sonic
 - Rider
