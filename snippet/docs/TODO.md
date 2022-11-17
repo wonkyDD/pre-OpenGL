@@ -3,6 +3,7 @@
 - alkagi
 - gomoku
 - tetris
+- 수학그래프그리기 (2d, 3d)
   
 - Mario-Kart
 - Kartrider
