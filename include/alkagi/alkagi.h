@@ -35,7 +35,7 @@ typedef unsigned int uint;
 GLFWwindow* g_mainWindow = nullptr;
 const uint WINDOW_WIDTH = 800;
 const uint WINDOW_HEIGHT = 600;
-float mixValue = 0.2f;
+float mixValue = 0.5f;
 
 
 int init(const char* caption = "Alkagi");
