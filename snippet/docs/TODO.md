@@ -52,6 +52,7 @@
 - 배구
 - 당구 (4구)
 
+- Simulator
 - Tycoon
 - 산사태
 - 3d-mazerunner
