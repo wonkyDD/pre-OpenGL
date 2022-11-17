@@ -59,7 +59,7 @@
 - 3d-mazerunner
 - 할리갈리
 - 해리포터-퀴디치
-- Primitives (기본다각형 이용)
+- Primitives (기본다각형 이용한 복셀게임)
 
 <!-- - Go-Stop -->
 <!-- - 물수제비 -->
