@@ -62,6 +62,9 @@
 - Primitives (기본다각형 이용한 복셀게임)
 - 태양계 (planet system)
 
+
+<!-- skeleton 애니메이션 / Ragdoll -->
+<!-- freetype으로 폰트테스팅 프로그램 -->
 <!-- - Go-Stop -->
 <!-- - 물수제비 -->
 <!-- - voxel-based game -->
