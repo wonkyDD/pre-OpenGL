@@ -3,11 +3,9 @@
 int main()
 {
     /** @todo Enum */
-    if (init() == 0) return -1;
+    if (init("EulerAngle") == 0) return -1;
 
-    glEnable(GL_DEPTH_TEST);
-
-    /** @todo 파일경로 하드코딩 */
+    /** @todo 파일경로 */
     Shader ourShader("/Users/joseonghyeon/dev/alkagi/src/main.vs", "/Users/joseonghyeon/dev/alkagi/src/main.fs");
 
     float vertices[] = {
@@ -93,7 +91,7 @@ int main()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    /** @todo getPath 하드코딩 */
+    /** @todo getPath */
     stbi_set_flip_vertically_on_load(true); 
     unsigned char* data = stbi_load(FileSystem::getPath("resources/textures/container.jpg").c_str(), &width, &height, &nrChannels, 0);
     if (data)
@@ -116,7 +114,7 @@ int main()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    /** @todo getPath 하드코딩 */
+    /** @todo getPath */
     data = stbi_load(FileSystem::getPath("resources/textures/github2.png").c_str(), &width, &height, &nrChannels, 0);
     if (data)
     {
@@ -132,9 +130,6 @@ int main()
     ourShader.use();
     ourShader.setInt("texture1", 1);
     ourShader.setInt("texture2", 2);
-
-    // glm::mat4 projection = glm::perspective(glm::radians(fov), (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT , 0.1f, 100.0f);
-    // ourShader.setMat4("projection", projection);
 
     while (!glfwWindowShouldClose(g_mainWindow))
     {
@@ -155,7 +150,7 @@ int main()
         ourShader.use();
         ourShader.setFloat("mixValue", mixValue);
 
-        glm::mat4 projection = glm::perspective(glm::radians(fov), (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT , 0.1f, 100.0f);
+        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT , 0.1f, 100.0f);
         ourShader.setMat4("projection", projection);
 
         double timeValue = glfwGetTime();
@@ -163,17 +158,17 @@ int main()
         float sinVal = static_cast<float>(sin(timeValue));
 
         glm::mat4 view = glm::mat4(1.0f);
-        view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+        view = camera.GetViewMatrix();
         ourShader.setMat4("view", view);
         
         glBindVertexArray(VAO);
         for (int i = 0; i < 10; ++i)
         {
             glm::mat4 model = glm::mat4(1.0f);
-            // model = glm::rotate(model, (float)timeValue, glm::vec3(0.5f, 1.0f, 0.0f));
+            model = glm::rotate(model, (float)timeValue, glm::vec3(0.5f, 1.0f, 0.0f));
             model = glm::translate(model, cubePositions[i]);
-            // model = glm::rotate(model, (float)timeValue * 10, glm::vec3(0.5f, 1.0f, 0.0f));
-            // model = glm::scale(model, glm::vec3(abs(cosVal) * 2, abs(cosVal) * 2, abs(cosVal) * 2));
+            model = glm::rotate(model, (float)timeValue * 10, glm::vec3(0.5f, 1.0f, 0.0f));
+            model = glm::scale(model, glm::vec3(abs(cosVal) * 2, abs(cosVal) * 2, abs(cosVal) * 2));
             
             ourShader.setMat4("model", model);
             glDrawArrays(GL_TRIANGLES, 0, 36);

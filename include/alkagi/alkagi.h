@@ -16,7 +16,7 @@
 #include <alkagi/filesystem.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include <alkagi/stb_image.h>
-// #include <alkagi/camera.h>
+#include <alkagi/camera.h>
 
 
 /**
@@ -39,16 +39,10 @@ const uint WINDOW_HEIGHT = 600;
 float mixValue = 0.5f;
 float deltaTime = 0.0f;
 float lastTime = 0.0f;
-glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 0.3f);
-glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
-float fov = 45.0f;
-float sensitivity = 0.1f;
 bool firstMouse = true;
 float lastX = WINDOW_WIDTH / 2.0;
 float lastY = WINDOW_HEIGHT / 2.0;
-float yaw = -90.0f;
-float pitch = 0.0f;
+Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
 
 int init(const char* caption = "Alkagi");
@@ -103,7 +97,9 @@ int init(const char* caption)
     glfwSetScrollCallback(g_mainWindow, scrollCallback);
     glfwSetCursorPosCallback(g_mainWindow, cursorPosCallback);
 
+    /** @todo InputMode */
     glfwSetInputMode(g_mainWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    // glfwSetInputMode(g_mainWindow, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) 
     {
@@ -111,13 +107,15 @@ int init(const char* caption)
         return 0;
     }
 
+    /** @todo 위치 */
+    glEnable(GL_DEPTH_TEST);
+
     return 1;
 }
 
 void processInput(GLFWwindow* window)
 {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) glfwSetWindowShouldClose(window, true);
     
     if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
     {
@@ -131,26 +129,10 @@ void processInput(GLFWwindow* window)
         if (mixValue <= 0.0f) mixValue = 0.0f;
     }
 
-    // float cameraSpeed = 10.0 * deltaTime;
-    float cameraSpeed = static_cast<float>(10.0 * deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        cameraPos += cameraSpeed * cameraFront;
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        cameraPos -= cameraSpeed * cameraFront;
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        cameraPos += cameraSpeed * glm::normalize(glm::cross(cameraFront, cameraUp));
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        cameraPos -= cameraSpeed * glm::normalize(glm::cross(cameraFront, cameraUp));
-}
-
-void framebufferSizeCallback(GLFWwindow* window, int width, int height)
-{
-    glViewport(0, 0, width, height);
-}
-
-void errorCallback(int error, const char* description)
-{
-	fprintf(stderr, "GLFW error occured. Code: %d. Description: %s\n", error, description);
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) camera.ProcessKeyboard(FORWARD, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) camera.ProcessKeyboard(BACKWARD, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) camera.ProcessKeyboard(RIGHT, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) camera.ProcessKeyboard(LEFT, deltaTime);
 }
 
 void cursorPosCallback(GLFWwindow* window, double xposIn, double yposIn)
@@ -169,43 +151,23 @@ void cursorPosCallback(GLFWwindow* window, double xposIn, double yposIn)
     float yoffset = lastY - ypos;
     lastX = xpos;
     lastY = ypos;
-    
-    /** @todo sensitivity란 */
-    xoffset *= sensitivity;
-    yoffset *= sensitivity;
 
-    /** @todo yaw, pitch, roll이란 */
-    yaw += xoffset;
-    pitch += yoffset;
-
-    /** @todo 왜 하필 pitch만, 그것도 89.0f란 경계인건지 */
-    if (pitch > 89.0f) pitch = 89.0f;
-    if (pitch < -89.0f) pitch = -89.0f;
-        
-    /** @todo 뜬금없는 수식들의 근원은? */
-    glm::vec3 front;
-    front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-    front.y = sin(glm::radians(pitch));
-    front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-    cameraFront = glm::normalize(front);
+    camera.ProcessMouseMovement(xoffset, yoffset, GL_TRUE);
 }
 
 void scrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 {
-    /**
-     * @note
-     * 1. scroll을 올림 (offset 양수) 
-     * -> 가까워지기를 기대하므로,
-     * fov를 낮춰야함
-     * 
-     * 2. scroll을 내림 (offset 음수)
-     * -> 멀어지기를 기대하므로,
-     * fov를 높여야함
-    */
-    fov -= (float)yoffset;
-    if (fov > 45.0f) fov = 45.0f;
-    if (fov < 1.0f) fov = 1.0f;
+    camera.ProcessMouseScroll(yoffset);
 }
 
+void framebufferSizeCallback(GLFWwindow* window, int width, int height)
+{
+    glViewport(0, 0, width, height);
+}
+
+void errorCallback(int error, const char* description)
+{
+	fprintf(stderr, "GLFW error occured. Code: %d. Description: %s\n", error, description);
+}
 
 #endif // ALKAGI_H
