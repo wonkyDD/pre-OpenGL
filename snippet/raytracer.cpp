@@ -191,6 +191,8 @@ void render(const std::vector<Sphere> &spheres)
             *pixel = trace(Vec3f(0), raydir, spheres, 0); 
         } 
     } 
+
+    /** @todo ppm과 png*/
     // Save result to a PPM image (keep these flags if you compile under Windows)
     // std::ofstream ofs("./raytracer.png", std::ios::out | std::ios::binary); 
     std::ofstream ofs("./raytracer.ppm", std::ios::out | std::ios::binary); 
