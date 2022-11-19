@@ -61,6 +61,9 @@ public:
     {
         /** @todo 항상 target이 position에서 방향벡터를 더한곳? */
         return glm::lookAt(Position, Position + Front, Up);
+
+        /** @todo Orthogonal Bases and Gram-Schmidt 참조 */
+        // return calculateLookAtMatrix(Position, Position + Front, Up);
     }
 
     void ProcessKeyboard(CameraMovement direction, float deltaTime)
@@ -70,6 +73,7 @@ public:
         if (direction == BACKWARD)  Position -= Front * velocity;
         if (direction == LEFT)      Position -= Right * velocity;
         if (direction == RIGHT)     Position += Right * velocity;
+        // Position.y = 0.0f;
     }
 
     void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true)
@@ -121,6 +125,34 @@ private:
         Front = glm::normalize(front);
         Right = glm::normalize(glm::cross(Front, WorldUp)); 
         Up    = glm::normalize(glm::cross(Right, Front));
+    }
+
+    glm::mat4 calculateLookAtMatrix(glm::vec3 position, glm::vec3 target, glm::vec3 worldUp)
+    {
+        // https://learnopengl.com/code_viewer_gh.php?code=src/1.getting_started/7.6.camera_exercise2/camera_exercise2.cpp
+
+        glm::vec3 zaxis = glm::normalize(glm::vec3(position - target));
+        glm::vec3 xaxis = glm::normalize(glm::cross(glm::normalize(worldUp), zaxis));
+        glm::vec3 yaxis = glm::cross(zaxis, xaxis);
+
+        // In glm we access elements as mat[col][row] due to column-major layout
+        glm::mat4 translation = glm::mat4(1.0f);
+        translation[3][0] = -position.x; // Third column, first row
+        translation[3][1] = -position.y;
+        translation[3][2] = -position.z;
+
+        glm::mat4 rotation = glm::mat4(1.0f);
+        rotation[0][0] = xaxis.x; // First column, first row
+        rotation[1][0] = xaxis.y;
+        rotation[2][0] = xaxis.z;
+        rotation[0][1] = yaxis.x; // First column, second row
+        rotation[1][1] = yaxis.y;
+        rotation[2][1] = yaxis.z;
+        rotation[0][2] = zaxis.x; // First column, third row
+        rotation[1][2] = zaxis.y;
+        rotation[2][2] = zaxis.z;
+
+        return rotation * translation;
     }
 };
 #endif
