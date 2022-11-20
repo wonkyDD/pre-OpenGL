@@ -37,7 +37,6 @@ GLFWwindow* g_mainWindow = nullptr;
 const uint WINDOW_WIDTH = 800;
 const uint WINDOW_HEIGHT = 600;
 
-// float mixValue = 0.5f;
 float deltaTime = 0.0f;
 float lastTime = 0.0f;
 
@@ -47,7 +46,7 @@ float lastY = WINDOW_HEIGHT / 2.0;
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
 glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
-// glm::vec3 lightPos(1.2f, -10.0f, -10.0f);
+float strength = 0.1f;
 
 
 int init(const char* caption = "Alkagi");
@@ -122,17 +121,17 @@ void processInput(GLFWwindow* window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) glfwSetWindowShouldClose(window, true);
     
-    // if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-    // {
-    //     mixValue += 0.005f;
-    //     if (mixValue >= 1.0f) mixValue = 1.0f;
-    // }
+    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+    {
+        strength += 0.005f;
+        if (strength >= 1.0f) strength = 1.0f;
+    }
     
-    // if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-    // {
-    //     mixValue -= 0.005f;
-    //     if (mixValue <= 0.0f) mixValue = 0.0f;
-    // }
+    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+    {
+        strength -= 0.005f;
+        if (strength <= 0.0f) strength = 0.0f;
+    }
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) camera.ProcessKeyboard(FORWARD, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) camera.ProcessKeyboard(BACKWARD, deltaTime);
