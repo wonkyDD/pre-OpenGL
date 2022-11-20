@@ -3,7 +3,7 @@
 int main()
 {
     /** @todo Enum */
-    if (init() == 0) return -1;
+    if (init("Phong") == 0) return -1;
 
     /** @todo 파일경로 */
     Shader objectShader("/Users/joseonghyeon/dev/alkagi/src/main.vs", "/Users/joseonghyeon/dev/alkagi/src/main.fs");
@@ -92,7 +92,7 @@ int main()
         deltaTime = currentTime - lastTime;
         lastTime = currentTime;
 
-        double timeValue = glfwGetTime();
+        double timeValue = glfwGetTime() * 3;
         float cosVal = static_cast<float>(cos(timeValue));
         float sinVal = static_cast<float>(sin(timeValue));
 
@@ -104,16 +104,33 @@ int main()
         objectShader.use();
         objectShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
         objectShader.setVec3("lightColor",  1.0f, 1.0f, 1.0f);
+        glm::vec3 lightPos(2 * sinVal, 1.0f, 2 * cosVal);
         objectShader.setVec3("lightPos", lightPos);
+        objectShader.setVec3("viewPos", camera.Position);
         objectShader.setFloat("strength", strength);
 
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT , 0.1f, 100.0f);
         glm::mat4 view = camera.GetViewMatrix();
         objectShader.setMat4("projection", projection);
         objectShader.setMat4("view", view);
-
+        /**
+         * @todo
+         * 어차피 square + diagonal인 항등행렬이라
+         * 역행렬을 구해도 자기자신을 뱉는데
+         * 왜굳이 main.vs에서 inverse를 하는가?
+         * 
+         * model이 항등행렬이 아닌
+         * TRS 변환을 먹고 들어오는 경우를 생각하는 건가?
+         * 그때는 inverse를 하는게 유의미해지는 건가?
+         * 
+         * @todo
+         * 더 나아가서 transpose까지 하면서
+         * 원본 model행렬을 변경하는 이유는?
+        */
         glm::mat4 model = glm::mat4(1.0f);
+        // model = glm::scale(model, glm::vec3(5.0f, 1.0f, 1.0f));
         objectShader.setMat4("model", model);
+
 
         /** @todo 주석처리해도 잘되는데? */
         // glBindVertexArray(objectVAO);
@@ -124,6 +141,7 @@ int main()
         lightShader.setMat4("view", view);
 
         model = glm::mat4(1.0f);
+        // model = glm::translate(model, lightPos);
         model = glm::translate(model, lightPos);
         model = glm::scale(model, glm::vec3(0.2f));
         lightShader.setMat4("model", model);
