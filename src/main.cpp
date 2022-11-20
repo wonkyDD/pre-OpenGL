@@ -3,7 +3,7 @@
 int main()
 {
     /** @todo Enum */
-    if (init("Phong") == 0) return -1;
+    if (init("GouraudShading - Phong model in VertexShader") == 0) return -1;
 
     /** @todo 파일경로 */
     Shader objectShader("/Users/joseonghyeon/dev/alkagi/src/main.vs", "/Users/joseonghyeon/dev/alkagi/src/main.fs");
