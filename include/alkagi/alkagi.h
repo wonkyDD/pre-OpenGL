@@ -46,7 +46,7 @@ float lastY = WINDOW_HEIGHT / 2.0;
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
 // glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
-float strength = 0.1f;
+// float strength = 0.1f;
 
 
 int init(const char* caption = "Alkagi");
@@ -102,7 +102,7 @@ int init(const char* caption)
     glfwSetCursorPosCallback(g_mainWindow, cursorPosCallback);
 
     /** @todo InputMode */
-    // glfwSetInputMode(g_mainWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(g_mainWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     // glfwSetInputMode(g_mainWindow, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) 
@@ -113,6 +113,11 @@ int init(const char* caption)
 
     /** @todo 위치 */
     glEnable(GL_DEPTH_TEST);
+
+    /** @todo 파일경로 */
+    /** @todo shader 컴파일도 Init에서 처리하는 방법? */
+    // Shader mainShader("/Users/joseonghyeon/dev/alkagi/src/main.vs", "/Users/joseonghyeon/dev/alkagi/src/main.fs");
+    // Shader lightShader("/Users/joseonghyeon/dev/alkagi/src/light_source.vs", "/Users/joseonghyeon/dev/alkagi/src/light_source.fs");
 
     return 1;
 }
@@ -126,17 +131,17 @@ void processInput(GLFWwindow* window)
      * ImGui로 ambient, specular의
      * intensity를 각각 조절하도록
     */
-    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-    {
-        strength += 0.005f;
-        if (strength >= 1.0f) strength = 1.0f;
-    }
+    // if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+    // {
+    //     strength += 0.005f;
+    //     if (strength >= 1.0f) strength = 1.0f;
+    // }
     
-    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-    {
-        strength -= 0.005f;
-        if (strength <= 0.0f) strength = 0.0f;
-    }
+    // if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+    // {
+    //     strength -= 0.005f;
+    //     if (strength <= 0.0f) strength = 0.0f;
+    // }
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) camera.ProcessKeyboard(FORWARD, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) camera.ProcessKeyboard(BACKWARD, deltaTime);
