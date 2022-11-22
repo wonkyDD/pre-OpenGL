@@ -6,8 +6,8 @@ int main()
     if (init() == 0) return -1;
 
     /** @todo 파일경로 */
-    Shader mainShader(FileSystem::getPath("src/main.vs").c_str(), FileSystem::getPath("src/main.fs").c_str());
-    Shader lightShader(FileSystem::getPath("src/light_source.vs").c_str(), FileSystem::getPath("src/light_source.fs").c_str());
+    Shader mainShader(FileSystem::getPath("src/shader/main.vs").c_str(), FileSystem::getPath("src/shader/main.fs").c_str());
+    Shader lightShader(FileSystem::getPath("src/shader/light_source.vs").c_str(), FileSystem::getPath("src/shader/light_source.fs").c_str());
 
     float vertices[] = {
         // positions          // normals           // texture coords
