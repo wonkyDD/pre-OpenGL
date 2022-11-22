@@ -3,7 +3,7 @@
 int main()
 {
     /** @todo Enum */
-    if (init() == 0) return -1;
+    if (init("Matrix") == 0) return -1;
 
     /** @todo 파일경로 */
     Shader mainShader(FileSystem::getPath("src/shader/main.vs").c_str(), FileSystem::getPath("src/shader/main.fs").c_str());
@@ -90,13 +90,17 @@ int main()
     glEnableVertexAttribArray(0);
 
 
+    mainShader.use();
     /** @todo 파일경로  */
-    uint diffuseMap = loadTexture(FileSystem::getPath("resources/textures/container2.png").c_str());
+    uint diffuseMap = loadTexture(FileSystem::getPath("resources/textures/container2_specular.png").c_str());
     mainShader.setInt("material.diffuse", 0);
     uint specularMap = loadTexture(FileSystem::getPath("resources/textures/container2_specular.png").c_str());
     mainShader.setInt("material.specular", 1);
+    uint emissionMap = loadTexture(FileSystem::getPath("resources/textures/matrix.jpg").c_str());
+    mainShader.setInt("material.emission", 2);
     
 
+    int cnt = 0;
     while (!glfwWindowShouldClose(g_mainWindow))
     {
         float currentTime = static_cast<float>(glfwGetTime());
@@ -113,6 +117,14 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         mainShader.use();
+        srand(time(0));
+        float red = (float)(rand() % 1000) / (float)1000; 
+        float green = (float)(rand() % 1000) / (float)1000; 
+        float blue = (float)(rand() % 1000) / (float)1000; 
+        mainShader.setFloat("r", red);
+        mainShader.setFloat("g", green);
+        mainShader.setFloat("b", blue);
+        mainShader.setFloat("time", timeValue);
         mainShader.setVec3("viewPos", camera.Position);
 
         // light properties
@@ -120,9 +132,6 @@ int main()
         mainShader.setVec3("light.position", lightPos);
 
         glm::vec3 lightColor = glm::vec3(1.0f);
-        // lightColor.x = static_cast<float>(sin(timeValue * 2.0));
-        // lightColor.y = static_cast<float>(sin(timeValue * 0.7));
-        // lightColor.z = static_cast<float>(sin(timeValue * 1.3));
         glm::vec3 ambientColor = lightColor * glm::vec3(0.1f); // ambient intensity
         glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f); // diffuse intensity
         mainShader.setVec3("light.ambient", ambientColor);
@@ -132,8 +141,6 @@ int main()
 
         // material properties
         mainShader.setFloat("material.shininess", 32.0f);
-        // mainShader.setVec3("material.ambient", 1.0f, 0.5f, 0.31f);
-        // mainShader.setVec3("material.diffuse", 1.0f, 0.5f, 0.31f);
         mainShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
 
 
@@ -142,12 +149,18 @@ int main()
         mainShader.setMat4("projection", projection);
         mainShader.setMat4("view", view);
         glm::mat4 model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+        float f = (float)timeValue * 0.3f;
+        model = glm::rotate(model, f, glm::vec3(0.5f, 1.0f, 0.0f));
+        // transform = glm::rotate(transform, (float)glfwGetTime() * 2, glm::vec3(0.0f, 0.0f, 1.0f));
         mainShader.setMat4("model", model);
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, diffuseMap);
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, specularMap);
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, emissionMap);
 
 
         /** @todo 주석처리해도 잘되는데? */

@@ -3,6 +3,8 @@
 
 #include <thread>
 #include <cmath>
+#include <cstdlib>
+#include <time.h>
 #include <stdio.h>
 #include <assert.h>
 

@@ -7,6 +7,7 @@ struct Material
     float shininess;
     sampler2D diffuse;
     sampler2D specular;
+    sampler2D emission;
 };
 
 struct Light
@@ -24,6 +25,10 @@ in vec2 TexCoord;
 uniform vec3 viewPos;
 uniform Material material;
 uniform Light light;
+uniform float time;
+uniform float r;
+uniform float g;
+uniform float b;
 
 
 void main()
@@ -42,9 +47,38 @@ void main()
     vec3 viewDir = normalize(viewPos - FragPos);
     float spec = pow(max(dot(reflectDir, viewDir), 0.0), material.shininess);
     vec3 specular =  light.specular * spec * texture(material.specular, TexCoord).rgb;
-    // inverse
-    // vec3 specular =  light.specular * spec * (vec3(1.0) - texture(material.specular, TexCoord).rgb);
 
-    vec3 result = ambient + diffuse + specular;
+    // emission
+    vec3 emissionIntensity = vec3(abs(sin(time * 0.2)));
+    vec3 emission = texture(material.emission, vec2(TexCoord.x, TexCoord.y + time*2.0)).rgb;
+
+
+    // vec3 emission_result = vec3(1.0);
+    // if (sin(time) >=0 && sin(time) < 0.2) 
+    // {
+    //     emission_result = vec3(emission.r, emission.g, emission.g);
+    // }
+    // else if(sin(time) >=0.2 && sin(time) < 0.4)
+    // {
+    //     emission_result = vec3(emission.r, emission.b, emission.b);
+    // }
+    // else if(sin(time) >=0.4 && sin(time) <= 0.6)
+    // {
+    //     emission_result = vec3(emission.r, emission.r, emission.g);
+    // }
+    // else if(sin(time) >=0.6 && sin(time) <= 0.8)
+    // {
+    //     emission_result = vec3(emission.g, emission.g, emission.b);
+    // }
+    // else
+    // {
+    //     emission_result = vec3(emission.r, emission.g, emission.b);
+    // }
+    // vec3 result = ambient + diffuse + specular + emission_result * emissionIntensity;
+
+
+    // vec3 result = ambient + diffuse + specular + vec3(emission.r * r, emission.g * g, emission.b * b) * emissionIntensity;
+    vec3 result = ambient + diffuse + specular + vec3(emission.g * r, emission.g * g, emission.b * b) * emissionIntensity;
+    // vec3 result = ambient + diffuse + specular + vec3(emission.r * r, emission.g * g, emission.g * b) * emissionIntensity;
     FragColor = vec4(result, 1.0);
 }
