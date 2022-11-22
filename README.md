@@ -1,6 +1,6 @@
-# Alkagi
+# OpenGL
 
-`WonkyDD Labs` for ...
+`WonkyDD OpenGL Labs` for ...
 - Graphics
 - Physics
 - Mathematics

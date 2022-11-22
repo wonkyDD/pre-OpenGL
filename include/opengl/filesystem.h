@@ -52,13 +52,13 @@ private:
 
     /**
      * @todo
-     * root 하드코딩 수정
+     * root 파일경로 (alkagi -> OpenGL)
      * 
      * -> 어떻게 cmake빌드했을때
-     * `logl_root`를 가진 root_directory.h 파일이 
-     * 생성되는지 확인할 것.
+     * `logl_root`를 가진 root_directory.h 파일이 생성되는지 확인할 것.
+     * 
     */
-    static std::string root = "/Users/joseonghyeon/dev/alkagi";
+    static std::string root = "/Users/joseonghyeon/dev/OpenGL";
     return root;
   }
 

@@ -12,11 +12,11 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <alkagi/shader.h>
-#include <alkagi/filesystem.h>
+#include <opengl/shader.h>
+#include <opengl/filesystem.h>
 #define STB_IMAGE_IMPLEMENTATION
-#include <alkagi/stb_image.h>
-#include <alkagi/camera.h>
+#include <opengl/stb_image.h>
+#include <opengl/camera.h>
 
 
 /**
@@ -49,7 +49,7 @@ Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 // float strength = 0.1f;
 
 
-int init(const char* caption = "Alkagi");
+int init(const char* caption = "OpenGL");
 void processInput(GLFWwindow* window);
 void cursorPosCallback(GLFWwindow* window, double xposIn, double yposIn);
 void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);

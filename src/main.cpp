@@ -1,4 +1,4 @@
-#include <alkagi/alkagi.h>
+#include <opengl/opengl.h>
 
 int main()
 {

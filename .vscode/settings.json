@@ -66,6 +66,6 @@
         "variant": "cpp",
         "filesystem": "cpp",
         "vector": "cpp"
-    }
+    },
     // "C_Cpp.errorSquiggles": "Disabled"
 }
