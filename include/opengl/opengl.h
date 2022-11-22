@@ -3,8 +3,8 @@
 
 #include <thread>
 #include <cmath>
-#include <cstdlib>
-#include <time.h>
+// #include <cstdlib>
+// #include <time.h>
 #include <stdio.h>
 #include <assert.h>
 
@@ -15,6 +15,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
+#include <imgui/imgui.h>
 
 #include <opengl/shader.h>
 #include <opengl/filesystem.h>
@@ -32,12 +33,13 @@
 
 
 #define ASSERT(x) assert(x)
-typedef unsigned int uint;
+// typedef unsigned int uint;
 
 
 GLFWwindow* g_mainWindow = nullptr;
-const uint WINDOW_WIDTH = 800;
-const uint WINDOW_HEIGHT = 600;
+const char* glslVersion = NULL;
+const unsigned int WINDOW_WIDTH = 800;
+const unsigned int WINDOW_HEIGHT = 600;
 
 float deltaTime = 0.0f;
 float lastTime = 0.0f;
@@ -124,9 +126,59 @@ int init(const char* caption)
     return 1;
 }
 
-uint loadTexture(const char *path)
+/**
+ * @todo
+ * ImGui에서 createUI하는데
+ * 추가적으로 box2d의 testbed에서 
+ * imgui_glfw_impl 이런것때매 더어려울듯
+*/
+// void createUI()
+// {
+// 	IMGUI_CHECKVERSION();
+// 	ImGui::CreateContext();
+
+// 	bool success;
+// 	success = ImGui_ImplGlfw_InitForOpenGL(g_mainWindow, false);
+// 	if (success == false)
+// 	{
+// 		printf("ImGui_ImplGlfw_InitForOpenGL failed\n");
+// 		assert(false);
+// 	}
+
+// 	success = ImGui_ImplOpenGL3_Init(glslVersion);
+// 	if (success == false)
+// 	{
+// 		printf("ImGui_ImplOpenGL3_Init failed\n");
+// 		assert(false);
+// 	}
+
+// 	// Search for font file
+// 	const char* fontPath1 = "data/droid_sans.ttf";
+// 	const char* fontPath2 = "../data/droid_sans.ttf";
+// 	const char* fontPath = nullptr;
+// 	FILE* file1 = fopen(fontPath1, "rb");
+// 	FILE* file2 = fopen(fontPath2, "rb");
+// 	if (file1)
+// 	{
+// 		fontPath = fontPath1;
+// 		fclose(file1);
+// 	}
+	
+// 	if (file2)
+// 	{
+// 		fontPath = fontPath2;
+// 		fclose(file2);
+// 	}
+
+// 	if (fontPath)
+// 	{
+// 		ImGui::GetIO().Fonts->AddFontFromFileTTF(fontPath, 13.0f);
+// 	}
+// }
+
+unsigned int loadTexture(const char *path)
 {
-    uint textureID;
+    unsigned int textureID;
     glGenTextures(1, &textureID);
 
     int width, height, nrComponents;
