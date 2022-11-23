@@ -15,7 +15,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
-#include <imgui/imgui.h>
+// #include <imgui/imgui.h>
 
 #include <opengl/shader.h>
 #include <opengl/filesystem.h>
@@ -49,7 +49,7 @@ float lastX = WINDOW_WIDTH / 2.0;
 float lastY = WINDOW_HEIGHT / 2.0;
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
-// glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 // float strength = 0.1f;
 
 
