@@ -2,7 +2,7 @@
 #define ALKAGI_H
 
 #include <thread>
-#include <cmath>
+// #include <cmath>
 // #include <cstdlib>
 // #include <time.h>
 #include <stdio.h>
