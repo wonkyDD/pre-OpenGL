@@ -11,3 +11,9 @@
 **/*.DS_Store
 **/*.dSYM
 build
+
+
+# TODO: 빌드테스트후 지워야할것 체크
+include/assimp
+include/imgui
+include/freetype
