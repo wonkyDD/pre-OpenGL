@@ -1,22 +1,29 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-      {
-        "name": "OpenGL(clang++): debug",
-        "type": "cppdbg",
-        "request": "launch",
-        "program": "${fileDirname}/../${fileBasenameNoExtension}",
-        "args": [],
-        "stopAtEntry": false,
-        "cwd": "${workspaceFolder}",
-        "environment": [],
-        "externalConsole": false,
-        "MIMode": "lldb",
-        "preLaunchTask": "OpenGL(clang++): build"
-      }
-    ]
-  }
-  
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "OpenGL(clang++): debug",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${fileDirname}/../${fileBasenameNoExtension}",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "lldb",
+      "preLaunchTask": "OpenGL(clang++): build"
+    },
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      // "stopAtEntry": true,
+      // "externalConsole": false,
+      "cwd": "/Users/joseonghyeon/dev/OpenGL",
+      "program": "/Users/joseonghyeon/dev/OpenGL/build/Debug/outDebug",
+      // "MIMode": "gdb"
+    }
+  ]
+}
